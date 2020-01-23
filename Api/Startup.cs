@@ -63,9 +63,10 @@ namespace BlazorExample.Api
             // even though you set the DefaultRequestCulture to Dutch (Netherlands).
             // In most situations this is correct, but if you DO want to start in the language specified in DefaultRequestCulture
             // you can add these lines:
-            var acceptLanguageProvider = result.RequestCultureProviders.FirstOrDefault(p => p is AcceptLanguageHeaderRequestCultureProvider);
-            if (acceptLanguageProvider != null)
-                result.RequestCultureProviders.Remove(acceptLanguageProvider);
+
+            //var acceptLanguageProvider = result.RequestCultureProviders.FirstOrDefault(p => p is AcceptLanguageHeaderRequestCultureProvider);
+            //if (acceptLanguageProvider != null)
+            //    result.RequestCultureProviders.Remove(acceptLanguageProvider);
 
             return result;
         }
