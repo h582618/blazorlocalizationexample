@@ -1,0 +1,41 @@
+﻿@using BlazorExample.Abstractions
+@inherits ComponentWithTranslations
+@inject ITranslationService TranslationService
+
+@if (TranslationService.AvailableLanguages == null)
+{
+    <div><p><em>Loading...</em></p></div>
+}
+else
+{
+    <div title="@Translation["Select Language"] (@TranslationService.SelectedLanguage.NativeName)">
+        <select @bind-value="LanguageCultureName" @bind-value:event="onchange">
+            @foreach (var cultureInfo in TranslationService.AvailableLanguages)
+            {
+                @if (cultureInfo.Name == TranslationService.SelectedLanguage.Name)
+                {
+                    <option selected="selected" value="@cultureInfo.Name">@cultureInfo.NativeName</option>
+                }
+                else
+                {
+                    <option value="@cultureInfo.Name">@cultureInfo.NativeName</option>
+                }
+            }
+        </select>
+    </div>
+}
+
+@code
+{
+    private string _languageCultureName;
+
+    public string LanguageCultureName
+    {
+        get => _languageCultureName;
+        set
+        {
+            _languageCultureName = value;
+            TranslationService.ChangeLanguage(value);
+        }
+    }
+}
