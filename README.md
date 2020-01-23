@@ -3,7 +3,7 @@
 See [Knowledge Base article](http://www.forestbrook.net/docs/blazor/localization.html) for detailed description.
 
 This solution:
-* Is intended for [Blazor WebAssembly](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models#blazor-webassembly){:target="_blank"}. 
+* Is intended for [Blazor WebAssembly](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models#blazor-webassembly). 
 * Reads the translations from your Api when the Blazor app is started and when the language is changed.
 * Can be used with translations in **.resx files**, in a **translations database** or with any **other source of translations**.
 * Using translations on a page is just as easy as inserting **`@Translation["Welcome"]`**.
