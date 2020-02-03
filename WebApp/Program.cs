@@ -1,16 +1,29 @@
-﻿using Microsoft.AspNetCore.Blazor.Hosting;
+﻿using BlazorExample.Abstractions;
+using BlazorExample.Client.Localization;
+using Microsoft.AspNetCore.Blazor.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace BlazorExample.WebApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-        }
+            var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-        public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
-            BlazorWebAssemblyHost.CreateDefaultBuilder()
-                .UseBlazorStartup<Startup>();
+            // Localization:
+            builder.Services.AddSingleton<ILanguageLoader, LanguageLoader>();
+            builder.Services.AddSingleton<TranslationService>();
+            builder.Services.AddSingleton<ITranslationProvider>(sp => sp.GetRequiredService<TranslationService>());
+            builder.Services.AddSingleton<ITranslationService>(sp => sp.GetRequiredService<TranslationService>());
+
+            builder.RootComponents.Add<App>("app");
+            var host = builder.Build();
+
+            // TODO: Load initial language
+
+            await host.RunAsync();
+        }
     }
 }

@@ -37,14 +37,14 @@ namespace BlazorExample.Api
             }
 
             app.UseStaticFiles();
-            app.UseClientSideBlazorFiles<WebApp.Startup>();
+            app.UseClientSideBlazorFiles<WebApp.Program>();
             app.UseRequestLocalization(app.ApplicationServices.GetService<RequestLocalizationOptions>());
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-                endpoints.MapFallbackToClientSideBlazor<WebApp.Startup>("index.html");
+                endpoints.MapFallbackToClientSideBlazor<WebApp.Program>("index.html");
             });
         }
 
