@@ -1,8 +1,8 @@
 ﻿using BlazorExample.Abstractions;
 using BlazorExample.Models;
-using Microsoft.AspNetCore.Components;
 using System;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace BlazorExample.Client.Localization
@@ -26,10 +26,10 @@ namespace BlazorExample.Client.Localization
         private async Task<LanguageResources> SelectAndLoadLanguage(string languageCultureName)
         {
             // Post the selected language (null to use current default) to update the language cookie:
-            await _httpClient.PostJsonAsync(LanguageApiRequestUri, new LanguageModel { CultureName = languageCultureName }).ConfigureAwait(false);
+            await _httpClient.PostAsJsonAsync(LanguageApiRequestUri, new LanguageModel { CultureName = languageCultureName }).ConfigureAwait(false);
 
             // Load the selected language texts:
-            return await _httpClient.GetJsonAsync<LanguageResources>(LanguageApiRequestUri).ConfigureAwait(false);
+            return await _httpClient.GetFromJsonAsync<LanguageResources>(LanguageApiRequestUri).ConfigureAwait(false);
         }
     }
 }

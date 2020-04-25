@@ -1,7 +1,9 @@
 ﻿using BlazorExample.Abstractions;
 using BlazorExample.Client.Localization;
-using Microsoft.AspNetCore.Blazor.Hosting;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace BlazorExample.WebApp
@@ -19,6 +21,8 @@ namespace BlazorExample.WebApp
             builder.Services.AddSingleton<ITranslationService>(sp => sp.GetRequiredService<TranslationService>());
 
             builder.RootComponents.Add<App>("app");
+            builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
             var host = builder.Build();
 
             // TODO: Load initial language
