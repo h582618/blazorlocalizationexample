@@ -4,9 +4,16 @@
     using System.Linq;
     using BlazorExample.Models;
     using BlazorExample.ResourceLibrary;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Net.Http;
+using BlazorAppTest.Shared;
+using Newtonsoft.Json;
+using System;
 
-    namespace BlazorExample.Api.Controllers
+namespace BlazorExample.Api.Controllers
     {
+
         [Route("api/[controller]")]
         [ApiController]
         public class SettingsController : ControllerBase
@@ -22,13 +29,31 @@
 
             // GET api/settings/language
             [HttpGet("language")]
-            public LanguageResources GetLanguage()
+            public async Task<LanguageResources> GetLanguageAsync()
             {
+                List<DataLang> dataLangs = await GetData();
+                
+                var langCode = HttpContext.GetRequestUICulture().Name;
+                String language = "";
+
+                switch(langCode)
+                {
+                  case "no":
+                    language = "Norsk";
+                    break;
+                  case "en":
+                    language = "English";
+                    break;
+
+                }
+
+                List<DataLang> languages = dataLangs.Where(x => x.language == language).ToList();
+
                 return new LanguageResources
                 {
-                    Language = HttpContext.GetRequestUICulture().Name,
+                    Language = langCode,
                     AvailableLanguages = _localizationOptions.SupportedUICultures.Select(l => l.Name).ToList(),
-                    Translations = _localizer.GetAllStrings(true).ToDictionary(ls => ls.Name, ls => ls.Value)
+                    Translations = languages.ToDictionary(ls => ls.name, ls => ls.value)
                 };
             }
 
@@ -53,5 +78,17 @@
                 HttpContext.SetLanguageCookie(model.CultureName, _localizationOptions.GetDefaultFormattingCulture());
                 return Ok();
             }
-        }
+            public async Task<List<DataLang>> GetData()
+            {
+            var httpClient = new HttpClient();
+
+            HttpResponseMessage response = await httpClient.GetAsync("https://languageapi.azurewebsites.net/api/Data");
+
+            string result1 = await response.Content.ReadAsStringAsync();
+
+            List<DataLang> data1 = JsonConvert.DeserializeObject<List<DataLang>>(result1);
+
+            return data1;
+            }
+    }
     }

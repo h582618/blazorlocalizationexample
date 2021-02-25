@@ -59,11 +59,11 @@ namespace BlazorExample.Api
 
         private static RequestLocalizationOptions CreateRequestLocalizationOptions()
         {
-            var supportedLanguages = new[] { new CultureInfo("nl"), new CultureInfo("en") };
-            var supportedFormattingCultures = new[] { new CultureInfo("nl-NL"), new CultureInfo("en-US") };
+            var supportedLanguages = new[] { new CultureInfo("no"), new CultureInfo("en") };
+            var supportedFormattingCultures = new[] { new CultureInfo("nb-NO"), new CultureInfo("en-US") };
             var result = new RequestLocalizationOptions
             {
-                DefaultRequestCulture = new RequestCulture("nl-NL", "nl"),
+                DefaultRequestCulture = new RequestCulture("nb-NO", "no"),
                 SupportedCultures = supportedFormattingCultures,
                 SupportedUICultures = supportedLanguages
             };
