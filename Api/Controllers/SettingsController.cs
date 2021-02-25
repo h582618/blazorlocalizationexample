@@ -3,7 +3,6 @@
     using Microsoft.Extensions.Localization;
     using System.Linq;
     using BlazorExample.Models;
-    using BlazorExample.ResourceLibrary;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net.Http;
@@ -19,11 +18,10 @@ namespace BlazorExample.Api.Controllers
         public class SettingsController : ControllerBase
         {
             private readonly RequestLocalizationOptions _localizationOptions;
-            private readonly IStringLocalizer _localizer;
 
-            public SettingsController(IStringLocalizer<SharedResource> localizer, RequestLocalizationOptions localizationOptions)
+            public SettingsController(RequestLocalizationOptions localizationOptions)
             {
-                _localizer = localizer;
+               
                 _localizationOptions = localizationOptions;
             }
 
